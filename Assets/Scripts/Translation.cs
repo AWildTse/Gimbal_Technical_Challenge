@@ -9,7 +9,7 @@ public class Translation : MonoBehaviour
 
     [SerializeField] private LayerMask translationLayerMask;
   
-    [SerializeField] [Range(0.01f, 0.1f)] private float speed = 0.01f;
+    [SerializeField] [Range(0.01f, 1f)] private float speed = 0.01f;
 
     private string direction = "";
 
@@ -22,12 +22,14 @@ public class Translation : MonoBehaviour
     }
     private void Update()
     {
-        if(Mouse.current.leftButton.isPressed)
+        if(Mouse.current.leftButton.wasPressedThisFrame)
         {
             if(TryHandleTranslationSelection())
             {
+                Manager.Instance.DisableScaling();
                 Translate(direction);
             }
+            Manager.Instance.EnableScaling();
         }
     }
 
@@ -47,34 +49,41 @@ public class Translation : MonoBehaviour
 
     private void Translate(string dir)
     {
-        Debug.Log("choosing dir");
+        //*Debug.Log("choosing dir");
         switch(dir)
         {
             case "Left":
-                Debug.Log("Left");
+                //Debug.Log("Left");
+                //StartCoroutine(Shift());
                 obj.transform.position += new Vector3(-speed, 0, 0);
                 break;
             case "Right":
-                Debug.Log("Right");
+                //Debug.Log("Right");
                 obj.transform.position += new Vector3(speed, 0, 0);
                 break;
             case "Up":
-                Debug.Log("Up");
+                //Debug.Log("Up");
                 obj.transform.position += new Vector3(0, speed, 0);
                 break;
             case "Down":
-                Debug.Log("Down");
+                //Debug.Log("Down");
                 obj.transform.position += new Vector3(0, -speed, 0);
                 break;
             case "Forward":
-                Debug.Log("Forward");
+                //Debug.Log("Forward");
                 obj.transform.position += new Vector3(0, 0, speed);
                 break;
             case "Backward":
-                Debug.Log("Backward");
+                //Debug.Log("Backward");
                 obj.transform.position += new Vector3(0, 0, -speed);
                 break;
         }
+        
+    }
+
+    IEnumerator Shift()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
     }
 
     private void AssignDirection(string direction)
