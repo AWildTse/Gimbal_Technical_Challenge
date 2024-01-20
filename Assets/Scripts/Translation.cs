@@ -17,7 +17,7 @@ public class Translation : MonoBehaviour
     {
         if(obj == null)
         {
-            GameObject.Find("Object");
+            obj = GameObject.Find("Object").transform;
         }
     }
     private void Update()
