@@ -5,89 +5,158 @@ using UnityEngine.InputSystem;
 
 public class Translation : MonoBehaviour
 {
-    [SerializeField] private Transform obj;
+
+    [SerializeField] private Transform objTransform;
+    [SerializeField] private Transform xTranslation;
+    [SerializeField] private Transform yTranslation;
+    [SerializeField] private Transform zTranslation;
 
     [SerializeField] private LayerMask translationLayerMask;
-  
-    [SerializeField] [Range(0.01f, 1f)] private float speed = 0.01f;
+    [SerializeField] [Range(1f, 10f)] private float speed = 1f;
 
-    private string direction = "";
+    private bool isDragging = false;
+    private float offset = 1f;
+    private Vector3 initialMousePos;
+    private string clickedGameObject;
+
+    private Camera mainCamera;
 
     private void Start()
     {
-        if(obj == null)
+        if (mainCamera == null)
         {
-            obj = GameObject.Find("Object").transform;
+            mainCamera = Camera.main;
+        }
+
+        if (objTransform == null)
+        {
+            objTransform = GameObject.Find("Object").transform;
+        }
+
+        if (xTranslation == null)
+        {
+            xTranslation = GameObject.Find("xTranslation").transform;
+        }
+
+        if (yTranslation == null)
+        {
+            yTranslation = GameObject.Find("yTranslation").transform;
+        }
+
+        if (zTranslation == null)
+        {
+            zTranslation = GameObject.Find("zTranslation").transform;
+        }
+
+        if (translationLayerMask == 0)
+        {
+            translationLayerMask = LayerMask.GetMask("Translation");
         }
     }
+
     private void Update()
     {
-        if(Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            if(TryHandleTranslationSelection())
-            {
-                Manager.Instance.DisableScaling();
-                Translate(direction);
-            }
-            Manager.Instance.EnableScaling();
+            initialMousePos = GetMouseWorldPos();
         }
+        if (Mouse.current.leftButton.isPressed && !isDragging && TryHandleTranslationSelection())
+        {
+            OnMouseDown();
+        }
+        else if (!Mouse.current.leftButton.isPressed && isDragging && !TryHandleTranslationSelection())
+        {
+            OnMouseUp();
+        }
+
+        if (isDragging)
+        {
+            if (clickedGameObject == "xTranslation")
+            {
+                xAxisTranslation();
+            }
+            else if (clickedGameObject == "yTranslation")
+            {
+                yAxisTranslation();
+            }
+            else if (clickedGameObject == "zTranslation")
+            {
+                zAxisTranslation();
+            }
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        isDragging = true;
+    }
+
+    private void OnMouseUp()
+    {
+        isDragging = false;
     }
 
     private bool TryHandleTranslationSelection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if(Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, translationLayerMask))
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, translationLayerMask))
         {
-            if(raycastHit.transform.TryGetComponent<Translation>(out Translation translation))
+            Debug.Log(raycastHit.transform.name);
+            if (raycastHit.transform.parent.name == "Translation")
             {
-                AssignDirection(raycastHit.collider.gameObject.name);
+                clickedGameObject = GetTransform(raycastHit);
                 return true;
             }
         }
         return false;
     }
 
-    private void Translate(string dir)
+    private void xAxisTranslation()
     {
-        //*Debug.Log("choosing dir");
-        switch(dir)
+        if (GetMouseWorldPos().x < initialMousePos.x)
         {
-            case "Left":
-                //Debug.Log("Left");
-                //StartCoroutine(Shift());
-                obj.transform.position += new Vector3(-speed, 0, 0);
-                break;
-            case "Right":
-                //Debug.Log("Right");
-                obj.transform.position += new Vector3(speed, 0, 0);
-                break;
-            case "Up":
-                //Debug.Log("Up");
-                obj.transform.position += new Vector3(0, speed, 0);
-                break;
-            case "Down":
-                //Debug.Log("Down");
-                obj.transform.position += new Vector3(0, -speed, 0);
-                break;
-            case "Forward":
-                //Debug.Log("Forward");
-                obj.transform.position += new Vector3(0, 0, speed);
-                break;
-            case "Backward":
-                //Debug.Log("Backward");
-                obj.transform.position += new Vector3(0, 0, -speed);
-                break;
+            objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position - (new Vector3(offset, 0, 0)), speed * Time.deltaTime);
         }
-        
+        if (GetMouseWorldPos().x > initialMousePos.x)
+        {
+            objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position + (new Vector3(offset, 0, 0)), speed * Time.deltaTime);
+        }
     }
 
-    IEnumerator Shift()
+    private void yAxisTranslation()
     {
-        yield return new WaitForSecondsRealtime(0.1f);
+        if (GetMouseWorldPos().y < initialMousePos.y)
+        {
+            objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position - (new Vector3(0, offset, 0)), speed * Time.deltaTime);
+        }
+        if (GetMouseWorldPos().y > initialMousePos.y)
+        {
+            objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position + (new Vector3(0, offset, 0)), speed * Time.deltaTime);
+        }
     }
 
-    private void AssignDirection(string direction)
+    private void zAxisTranslation()
     {
-        this.direction = direction;
+        if (GetMouseWorldPos().z < initialMousePos.z)
+        {
+            objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position - (new Vector3(0, 0, offset)), speed * Time.deltaTime);
+        }
+        if (GetMouseWorldPos().z > initialMousePos.z)
+        {
+            objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position + (new Vector3(0, 0, offset)), speed * Time.deltaTime);
+        }
+    }
+
+    private string GetTransform(RaycastHit raycastHit)
+    {
+        string direction = raycastHit.transform.name;
+        return direction;
+    }
+
+    Vector3 GetMouseWorldPos()
+    {
+        Vector3 mousePos = Mouse.current.position.ReadValue();
+        mousePos.z = Camera.main.nearClipPlane;
+        return Camera.main.ScreenToWorldPoint(mousePos);
     }
 }

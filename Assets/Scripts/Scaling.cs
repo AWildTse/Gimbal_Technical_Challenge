@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Scaling : MonoBehaviour
 {
+    /*
     [SerializeField] private Transform obj;
 
     [SerializeField] private LayerMask scalingLayerMask;
@@ -96,4 +97,5 @@ public class Scaling : MonoBehaviour
             obj.transform.localScale += new Vector3(scalingSpeed, scalingSpeed, scalingSpeed);
         }
     }
+    */
 }
