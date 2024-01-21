@@ -31,6 +31,11 @@ public class Manager : MonoBehaviour
         }
     }
 
+    public static Transform GetScaling()
+    {
+        return instance.scaling;
+    }
+
     public static void EnableTranslation()
     {
         foreach(Transform obj in instance.translation)

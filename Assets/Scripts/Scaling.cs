@@ -13,7 +13,7 @@ public class Scaling : MonoBehaviour
     [SerializeField] private LayerMask ScalingLayerMask;
     [SerializeField] [Range(0.001f, 0.01f)] private float speed = 0.001f;
     [SerializeField] [Range(1f, 5f)] private float min = 0.1f;
-    [SerializeField] [Range(5f, 10f)] private float max = 5f;
+    [SerializeField] [Range(2f, 10f)] private float max = 2f;
 
     private bool isDragging = false;
     private Vector3 initialMousePos;
@@ -113,11 +113,17 @@ public class Scaling : MonoBehaviour
     {
         if (MouseWorld.GetPosition().x < initialMousePos.x)
         {
-            objTransform.localScale -= new Vector3(speed, speed, speed);
+            if (objTransform.localScale.x > min)
+            {
+                objTransform.localScale -= new Vector3(speed, speed, speed);
+            }
         }
         if (MouseWorld.GetPosition().x > initialMousePos.x)
         {
-            objTransform.localScale += new Vector3(speed, speed, speed);
+            if (objTransform.localScale.x < max)
+            {
+                objTransform.localScale += new Vector3(speed, speed, speed);
+            }
         }
     }
 }
