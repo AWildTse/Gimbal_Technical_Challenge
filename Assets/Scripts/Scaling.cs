@@ -5,97 +5,119 @@ using UnityEngine.InputSystem;
 
 public class Scaling : MonoBehaviour
 {
-    /*
-    [SerializeField] private Transform obj;
+    [SerializeField] private Transform objTransform;
+    [SerializeField] private Transform xScaling;
+    [SerializeField] private Transform yScaling;
+    [SerializeField] private Transform zScaling;
 
-    [SerializeField] private LayerMask scalingLayerMask;
-
-    private Vector2 mousePosition;
-    private Vector2 newMousePosition;
-    private bool isScaling = false;
-
-    [SerializeField] [Range(0.001f, 0.1f)] private float scalingSpeed = 0.001f;
+    [SerializeField] private LayerMask ScalingLayerMask;
+    [SerializeField] [Range(0.001f, 0.01f)] private float speed = 0.001f;
     [SerializeField] [Range(1f, 5f)] private float min = 0.1f;
     [SerializeField] [Range(5f, 10f)] private float max = 5f;
 
-    // Start is called before the first frame update
+    private bool isDragging = false;
+    private Vector3 initialMousePos;
+    private Transform clickedGameObject;
+
+    private Camera mainCamera;
+
     private void Start()
     {
-        if (obj == null)
+        #region initializing if empty
+        //If for some reason a reference is empty within the editor, We'll look for the missing components
+        if (mainCamera == null)
         {
-            obj = GameObject.Find("Object").transform;
+            mainCamera = Camera.main;
         }
+
+        if (objTransform == null)
+        {
+            objTransform = GameObject.Find("Object").transform;
+        }
+
+        if (xScaling == null)
+        {
+            xScaling = GameObject.Find("xScaling").transform;
+        }
+
+        if (yScaling == null)
+        {
+            yScaling = GameObject.Find("yScaling").transform;
+        }
+
+        if (zScaling == null)
+        {
+            zScaling = GameObject.Find("zScaling").transform;
+        }
+
+        if (ScalingLayerMask == 0)
+        {
+            ScalingLayerMask = LayerMask.GetMask("Scaling");
+        }
+        #endregion
     }
 
-    // Update is called once per frame
-    void Update()
-    { 
-        if (TryHandleScalingSelection())
+    private void Update()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Manager.Instance.DisableTranslation();
-            isScaling = true;
+            initialMousePos = MouseWorld.GetPosition();
         }
-        if (Mouse.current.leftButton.isPressed && isScaling == true)
+        if (Mouse.current.leftButton.isPressed && !isDragging && TryHandleTranslationSelection())
         {
-            mousePosition = GetPosition();
+            Manager.DisableTranslation();
+            Manager.EnableScaling();
+            OnMouseDown();
+        }
+        else if (!Mouse.current.leftButton.isPressed && isDragging && !TryHandleTranslationSelection())
+        {
+            OnMouseUp();
+        }
 
-            StartCoroutine(GrabPosition());
-
-            if (newMousePosition.x < mousePosition.x && isScaling == true)
+        if (isDragging)
+        {
+            Manager.DisableTranslation();
+            if (clickedGameObject == xScaling || clickedGameObject == yScaling || clickedGameObject == zScaling)
             {
-                Grow();
+                ObjectScaling();
             }
-            else if (newMousePosition.x > mousePosition.x && isScaling == true)
-            {
-                Shrink();
-            }
-            mousePosition = newMousePosition;
         }
         else
         {
-            Manager.Instance.EnableTranslation();
-            isScaling = false;
+            Manager.EnableTranslation();
         }
     }
 
-    IEnumerator GrabPosition()
+    private void OnMouseDown()
     {
-        yield return new WaitForSecondsRealtime(.1f);
-        newMousePosition = GetPosition();
+        isDragging = true;
     }
 
-    private bool TryHandleScalingSelection()
+    private void OnMouseUp()
+    {
+        isDragging = false;
+    }
+
+    private bool TryHandleTranslationSelection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, scalingLayerMask))
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, ScalingLayerMask))
         {
-            if (raycastHit.transform.TryGetComponent<Scaling>(out Scaling scaling))
-            {
-                return true;
-            }
+            clickedGameObject = raycastHit.transform;
+            return true;
         }
         return false;
     }
 
-    private static Vector2 GetPosition()
+    private void ObjectScaling()
     {
-        return Mouse.current.position.ReadValue();
-    }
-
-    private void Shrink()
-    {
-        if(obj.transform.localScale.x > min)
+        if (MouseWorld.GetPosition().x < initialMousePos.x)
         {
-            obj.transform.localScale -= new Vector3(scalingSpeed, scalingSpeed, scalingSpeed);
+            objTransform.localScale -= new Vector3(speed, speed, speed);
+        }
+        if (MouseWorld.GetPosition().x > initialMousePos.x)
+        {
+            objTransform.localScale += new Vector3(speed, speed, speed);
         }
     }
-
-    private void Grow()
-    {
-        if(obj.transform.localScale.x < max)
-        {
-            obj.transform.localScale += new Vector3(scalingSpeed, scalingSpeed, scalingSpeed);
-        }
-    }
-    */
 }

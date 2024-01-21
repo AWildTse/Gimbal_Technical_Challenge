@@ -371,7 +371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6420846368046154124, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
       propertyPath: m_Name
-      value: Up
+      value: yScaling
       objectReference: {fileID: 0}
     - target: {fileID: 6420846368046154124, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
       propertyPath: m_Layer
@@ -765,6 +765,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 13, z: 0}
+--- !u!1 &1145893611
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1145893613}
+  - component: {fileID: 1145893612}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1145893612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145893611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073ba8a750a87fa46a788b32ff954c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  translation: {fileID: 1986570000}
+  scaling: {fileID: 1506107034}
+  rotation: {fileID: 0}
+--- !u!4 &1145893613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145893611}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6739403, y: 0.117129, z: -0.143066}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1168151042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,7 +1248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6420846368046154124, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
       propertyPath: m_Name
-      value: Backward
+      value: zScaling
       objectReference: {fileID: 0}
     - target: {fileID: 6420846368046154124, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
       propertyPath: m_Layer
@@ -1499,7 +1546,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6420846368046154124, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
       propertyPath: m_Name
-      value: Left
+      value: xScaling
       objectReference: {fileID: 0}
     - target: {fileID: 6420846368046154124, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
       propertyPath: m_Layer

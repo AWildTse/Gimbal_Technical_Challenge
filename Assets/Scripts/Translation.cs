@@ -65,6 +65,8 @@ public class Translation : MonoBehaviour
         }
         if (Mouse.current.leftButton.isPressed && !isDragging && TryHandleTranslationSelection())
         {
+            Manager.DisableScaling();
+            Manager.EnableTranslation();
             OnMouseDown();
         }
         else if (!Mouse.current.leftButton.isPressed && isDragging && !TryHandleTranslationSelection())
@@ -74,6 +76,7 @@ public class Translation : MonoBehaviour
 
         if (isDragging)
         {
+            Manager.DisableScaling();
             if (clickedGameObject == xTranslation)
             {
                 xAxisTranslation();
@@ -87,6 +90,11 @@ public class Translation : MonoBehaviour
                 zAxisTranslation();
             }
         }
+        else
+        {
+            Manager.EnableScaling();
+        }
+        
     }
 
     private void OnMouseDown()
