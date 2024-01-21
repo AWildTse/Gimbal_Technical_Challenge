@@ -12,17 +12,19 @@ public class Translation : MonoBehaviour
     [SerializeField] private Transform zTranslation;
 
     [SerializeField] private LayerMask translationLayerMask;
-    [SerializeField] [Range(1f, 10f)] private float speed = 1f;
+    [SerializeField] [Range(1f, 10f)] private float speed = 2.5f;
 
     private bool isDragging = false;
     private float offset = 1f;
     private Vector3 initialMousePos;
-    private string clickedGameObject;
+    private Transform clickedGameObject;
 
     private Camera mainCamera;
 
     private void Start()
     {
+        #region initializing if empty
+        //If for some reason a reference is empty within the editor, We'll look for the missing components
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
@@ -52,13 +54,14 @@ public class Translation : MonoBehaviour
         {
             translationLayerMask = LayerMask.GetMask("Translation");
         }
+        #endregion
     }
 
     private void Update()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            initialMousePos = GetMouseWorldPos();
+            initialMousePos = MouseWorld.GetPosition();
         }
         if (Mouse.current.leftButton.isPressed && !isDragging && TryHandleTranslationSelection())
         {
@@ -71,15 +74,15 @@ public class Translation : MonoBehaviour
 
         if (isDragging)
         {
-            if (clickedGameObject == "xTranslation")
+            if (clickedGameObject == xTranslation)
             {
                 xAxisTranslation();
             }
-            else if (clickedGameObject == "yTranslation")
+            else if (clickedGameObject == yTranslation)
             {
                 yAxisTranslation();
             }
-            else if (clickedGameObject == "zTranslation")
+            else if (clickedGameObject == zTranslation)
             {
                 zAxisTranslation();
             }
@@ -101,23 +104,20 @@ public class Translation : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, translationLayerMask))
         {
-            Debug.Log(raycastHit.transform.name);
-            if (raycastHit.transform.parent.name == "Translation")
-            {
-                clickedGameObject = GetTransform(raycastHit);
-                return true;
-            }
+            clickedGameObject = raycastHit.transform;
+            return true;
         }
         return false;
     }
 
+    #region Axis Translations
     private void xAxisTranslation()
     {
-        if (GetMouseWorldPos().x < initialMousePos.x)
+        if (MouseWorld.GetPosition().x < initialMousePos.x)
         {
             objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position - (new Vector3(offset, 0, 0)), speed * Time.deltaTime);
         }
-        if (GetMouseWorldPos().x > initialMousePos.x)
+        if (MouseWorld.GetPosition().x > initialMousePos.x)
         {
             objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position + (new Vector3(offset, 0, 0)), speed * Time.deltaTime);
         }
@@ -125,11 +125,11 @@ public class Translation : MonoBehaviour
 
     private void yAxisTranslation()
     {
-        if (GetMouseWorldPos().y < initialMousePos.y)
+        if (MouseWorld.GetPosition().y < initialMousePos.y)
         {
             objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position - (new Vector3(0, offset, 0)), speed * Time.deltaTime);
         }
-        if (GetMouseWorldPos().y > initialMousePos.y)
+        if (MouseWorld.GetPosition().y > initialMousePos.y)
         {
             objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position + (new Vector3(0, offset, 0)), speed * Time.deltaTime);
         }
@@ -137,26 +137,14 @@ public class Translation : MonoBehaviour
 
     private void zAxisTranslation()
     {
-        if (GetMouseWorldPos().z < initialMousePos.z)
+        if (MouseWorld.GetPosition().z < initialMousePos.z)
         {
             objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position - (new Vector3(0, 0, offset)), speed * Time.deltaTime);
         }
-        if (GetMouseWorldPos().z > initialMousePos.z)
+        if (MouseWorld.GetPosition().z > initialMousePos.z)
         {
             objTransform.position = Vector3.MoveTowards(objTransform.position, objTransform.position + (new Vector3(0, 0, offset)), speed * Time.deltaTime);
         }
     }
-
-    private string GetTransform(RaycastHit raycastHit)
-    {
-        string direction = raycastHit.transform.name;
-        return direction;
-    }
-
-    Vector3 GetMouseWorldPos()
-    {
-        Vector3 mousePos = Mouse.current.position.ReadValue();
-        mousePos.z = Camera.main.nearClipPlane;
-        return Camera.main.ScreenToWorldPoint(mousePos);
-    }
+    #endregion
 }

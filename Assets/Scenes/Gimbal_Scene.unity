@@ -292,17 +292,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6420846368046154125, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
   m_PrefabInstance: {fileID: 6420846367939430174}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &182224532 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6420846368046154122, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
-  m_PrefabInstance: {fileID: 6420846367939430174}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dee1f6123efd3ba4d95e94015cf5527c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &413704247 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6781700975819976324, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
@@ -319,7 +308,7 @@ GameObject:
   - component: {fileID: 523005579}
   - component: {fileID: 523005580}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: MouseWorld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,39 +338,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 523005578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37e2d2fd7d5f8c046a39dd221457e0d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d7193d973b8c7b4c8d9265edceef092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  translationObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  scalingObjects:
-  - {fileID: 182224532}
-  - {fileID: 0}
-  - {fileID: 572653641}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 1839023490}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 448
 --- !u!4 &572653640 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6420846368046154125, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
   m_PrefabInstance: {fileID: 623153768}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &572653641 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6420846368046154122, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
-  m_PrefabInstance: {fileID: 623153768}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dee1f6123efd3ba4d95e94015cf5527c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &604490616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6781700975819976324, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
@@ -942,7 +909,7 @@ PrefabInstance:
       objectReference: {fileID: 628854809}
     - target: {fileID: 86866463564846044, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
       propertyPath: m_VersionIndex
-      value: 3101
+      value: 3104
       objectReference: {fileID: 0}
     - target: {fileID: 1204732776985563243, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -964,14 +931,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 628854809}
-    - target: {fileID: 0}
-      propertyPath: obj
-      value: 
-      objectReference: {fileID: 1168151046}
-    - target: {fileID: 0}
-      propertyPath: speed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3384751714288876988, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1070,7 +1029,7 @@ PrefabInstance:
       objectReference: {fileID: 1802047223}
     - target: {fileID: 86866463564846044, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
       propertyPath: m_VersionIndex
-      value: 3110
+      value: 3113
       objectReference: {fileID: 0}
     - target: {fileID: 1204732776985563243, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1092,14 +1051,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1802047223}
-    - target: {fileID: 0}
-      propertyPath: obj
-      value: 
-      objectReference: {fileID: 1168151046}
-    - target: {fileID: 0}
-      propertyPath: speed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3384751714288876988, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1164,7 +1115,7 @@ PrefabInstance:
       objectReference: {fileID: 123881457}
     - target: {fileID: 86866463564846044, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
       propertyPath: m_VersionIndex
-      value: 3098
+      value: 3101
       objectReference: {fileID: 0}
     - target: {fileID: 1204732776985563243, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1182,14 +1133,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 123881457}
-    - target: {fileID: 0}
-      propertyPath: obj
-      value: 
-      objectReference: {fileID: 1168151046}
-    - target: {fileID: 0}
-      propertyPath: speed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3384751714288876988, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1479,17 +1422,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6420846368046154125, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
   m_PrefabInstance: {fileID: 1766512640}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1839023490 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6420846368046154122, guid: 034cacbf4b570bf4885bf7e09a0d6b92, type: 3}
-  m_PrefabInstance: {fileID: 1766512640}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dee1f6123efd3ba4d95e94015cf5527c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1904897267 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6781700975819976324, guid: a2fca8a59b81f4444ba7103b6cf9da29, type: 3}
@@ -1542,14 +1474,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fdba944acaaec444a5b4d315f932c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objTransform: {fileID: 0}
-  xTranslation: {fileID: 0}
-  yTranslation: {fileID: 0}
-  zTranslation: {fileID: 0}
+  objTransform: {fileID: 1168151046}
+  xTranslation: {fileID: 1904897267}
+  yTranslation: {fileID: 604490616}
+  zTranslation: {fileID: 413704247}
   translationLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  speed: 1
+    m_Bits: 64
+  speed: 2.5
 --- !u!1001 &6420846367939430174
 PrefabInstance:
   m_ObjectHideFlags: 0
